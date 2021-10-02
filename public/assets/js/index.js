@@ -67,6 +67,8 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
+  const noteTitle = document.getElementById('note-title');
+  const noteText = document.getElementById('note-textarea')
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
@@ -118,7 +120,7 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
+  let jsonNotes = await notes.json();   //received db data
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -128,7 +130,7 @@ const renderNoteList = async (notes) => {
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
-    liEl.classList.add('list-group-item');
+    liEl.classList.add('list-group-item');    // add a item (db.title, db.text)
 
     const spanEl = document.createElement('span');
     spanEl.classList.add('list-item-title');
