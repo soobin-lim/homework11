@@ -1,19 +1,28 @@
 const notes = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+const uuid = require('../helpers/uuid');
+
+const { readFromFile, readAndAppend, readAndDelete } = require('../helpers/fsUtils');
 
 // GET Route for retrieving all the tips
 notes.get('/', (req, res) => {
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
+notes.delete('/:id', (req,res) => {
+  console.log('passing delete id : ', req.params.id);
+  readAndDelete(req.params.id, './db/db.json');
+}); 
+
 // POST Route for a new UX/UI tip
 notes.post('/', (req, res) => {
   const { title, text } = req.body;
 
+  const id = 1;
   if (req.body) {
     const newNote = {
       title,
-      text
+      text,
+      id: uuid()
     };
 
     readAndAppend(newNote, './db/db.json');

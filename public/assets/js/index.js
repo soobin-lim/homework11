@@ -42,13 +42,14 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
-const deleteNote = (id) =>
+const deleteNote = (id) => {
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
   });
+}
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
@@ -86,26 +87,33 @@ const handleNoteDelete = (e) => {
 
   const note = e.target;
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  console.log(noteId);
 
   if (activeNote.id === noteId) {
     activeNote = {};
   }
-
-  deleteNote(noteId).then(() => {
+  // deleteNote(noteId).then(() => {
+    deleteNote(noteId)
     getAndRenderNotes();
     renderActiveNote();
-  });
+  // });
 };
 
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
   e.preventDefault();
-  activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  data = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  activeNote.id = data.id;
+  activeNote.title = data.title;
+  activeNote.text = data.text;
+  console.log(activeNote.id, activeNote.title, activeNote.text);
   renderActiveNote();
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
+  activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  
   activeNote = {};
   renderActiveNote();
 };
@@ -163,7 +171,7 @@ const renderNoteList = async (notes) => {
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
-
+    
     noteListItems.push(li);
   });
 
