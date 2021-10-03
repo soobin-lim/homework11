@@ -42,14 +42,11 @@ const readAndDelete = (id, file) => {
       for (var i = 0; i< parsedData.length; i++){
         if(parsedData[i].id == id){
           let deleted;
-
           deleted = parsedData.splice(i, 1);
           console.log("deleted: ", deleted);
-          
         }
       }
       writeToFile(file, parsedData);
-
     }
   });
 }

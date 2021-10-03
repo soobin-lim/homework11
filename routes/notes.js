@@ -11,6 +11,7 @@ notes.get('/', (req, res) => {
 notes.delete('/:id', (req,res) => {
   console.log('passing delete id : ', req.params.id);
   readAndDelete(req.params.id, './db/db.json');
+  res.json('Note deleted successfully');
 }); 
 
 // POST Route for a new UX/UI tip
